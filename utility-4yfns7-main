@@ -1,0 +1,341 @@
+
+
+repeat task.wait() until game:FindService("Players") and game:GetService("Players").LocalPlayer~=nil
+local LocalPlayer, LP = game:GetService("Players").LocalPlayer, game:GetService("Players").LocalPlayer
+local Character, Char
+local HumanoidRootPart, HRP
+local Humanoid, Hum
+pcall(function()
+Character, Char = LocalPlayer.Character, LocalPlayer.Character
+end)
+pcall(function()
+HumanoidRootPart, HRP = Character.HumanoidRootPart, Character.HumanoidRootPart
+end)
+pcall(function()
+Humanoid, Hum = Character.Humanoid, Character.Humanoid
+end)
+LocalPlayer.CharacterAdded:Connect(function(char)
+pcall(function()
+Character, Char = nil, nil
+HumanoidRootPart, HRP = nil, nil
+Humanoid, Hum = nil, nil
+task.wait()
+Character, Char = char, char
+repeat task.wait() until char:FindFirstChild("HumanoidRootPart")
+HumanoidRootPart, HRP = char.HumanoidRootPart, char.HumanoidRootPart
+repeat task.wait() until Character:FindFirstChild("Humanoid")
+Humanoid, Hum = char.Humanoid, char.Humanoid
+end)
+end)
+function CreateMessage(a)
+local instancename = (a=="Message" and a) or "Hint"
+local msg = Instance.new(instancename,game:GetService("CoreGui"))
+msg.Name = "BadgeHubNof"
+msg.Text = ""
+return msg
+end
+local msg = CreateMessage()
+msg.Text = "Loading Modules... (0/1)"
+local loadmoduleattempt = 0
+local Module = nil
+repeat task.wait()
+local lodsuc, loderr = pcall(function()
+Module = loadstring(game:HttpGet("https://raw.githubusercontent.com/NewNexer/NexerHub/refs/heads/main/Modified%20Module.luau"))()
+end)
+if not lodsuc then
+loadmoduleattempt += 1
+msg.Text = "Failed loading Modules, re-trying... ( Attempt "..tostring(loadmoduleattempt).." )"
+task.wait(1)
+elseif lodsuc and Module.IsWorking ~= nil then
+msg.Text = "Loading Modules... (1/1)"
+task.wait(1)
+else
+loadmoduleattempt += 1
+msg.Text = "Failed loading Modules, re-trying... ( Attempt "..tostring(loadmoduleattempt).." )"
+task.wait(1)
+end
+until msg.Text == "Loading Modules... (1/1)"
+EquipGlove = Module.EquipGlove
+TeleportToArena = Module.TeleportToArena
+TouchObject = Module.TouchObject
+Slap = Module.Slap
+task.wait(1)
+msg.Text = "Launching Rayfield..."
+--[[ Loading rayfield here ]] --
+local Rayfield = Module:GetWorkingRayfield()
+task.delay(2,function()
+msg:Destroy()
+end)
+--[[ Creating Window ]]--
+local Window = Rayfield:CreateWindow({
+   Name = "[Private] TP Utility+",
+   Icon = 0,
+   LoadingTitle = "TP Utility+",
+   LoadingSubtitle = "Developed by Nexer",
+   Theme = "Amethyst",
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = true,
+   ConfigurationSaving = {
+      Enabled = false,
+      FolderName = "",
+      FileName = ""
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+   KeySystem = false,
+   KeySettings = {
+      Title = "Verify yourself firstly!",
+      Subtitle = "Key Needed!",
+      Note = "The key is ''cheese''",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"cheese"}
+   }
+})
+
+
+local KickPosition = {
+    [1] = CFrame.new(-1131, 303, -8),
+    [2] = CFrame.new(-1131, 303, 4),
+    [3] = CFrame.new(-1116, 303, 4),
+    [4] = CFrame.new(-1116, 303, -8),
+    [5] = CFrame.new(-1123, 303, -2),
+}
+local DebugPosition = {
+    [1] = CFrame.new(-17922, 70, 3523),
+    [2] = CFrame.new(-17922, 70, 3544),
+    [3] = CFrame.new(-17922, 70, 3595),
+    [4] = CFrame.new(-17922, 70, 3578),
+    [5] = CFrame.new(-17922, 70, 3562),
+}
+local BoogieShopPosition = {
+    [1] = CFrame.new(17, 5015, -93),
+    [2] = CFrame.new(1, 5015, -93),
+    [3] = CFrame.new(-13, 5015, -93),
+}
+local IceTrialsPosition = {
+    [1] = CFrame.new(1567, 90, 8945),
+    [2] = CFrame.new(1567, 90, 8934),
+    [3] = CFrame.new(1579, 90, 8934),
+    [4] = CFrame.new(1579, 90, 8945),
+    [5] = CFrame.new(1592, 90, 8945),
+    [6] = CFrame.new(1592, 90, 8934),
+    [7] = CFrame.new(1607, 90, 8934),
+    [8] = CFrame.new(1606, 90, 8945),
+    [9] = CFrame.new(1619, 90, 8945),
+    [10] = CFrame.new(1619, 90, 8933),
+    [11] = CFrame.new(1632, 90, 8934),
+    [12] = CFrame.new(1632, 90, 8945),
+    [13] = CFrame.new(1645, 90, 8945),
+    [14] = CFrame.new(1645, 90, 8934),
+    [15] = CFrame.new(1658, 90, 8934),
+    [16] = CFrame.new(1658, 90, 8945),
+}
+local BasementPosition = {
+    [1] = CFrame.new(17894, -130, -3532),
+    [2] = CFrame.new(17894, -130, -3552),
+    [3] = CFrame.new(17895, -130, -3495),
+    [4] = CFrame.new(17943, -130, -3536),
+}
+local PocketDimensionPosition = CFrame.new(-89, -28140, 5)
+
+
+Window:CreateTabSection("Kick")
+local KickPPL = Window:CreateTab("Kick",0)
+KickPPL:CreateSection("Certain Kicking")
+local CertainUsername = "Nexer"
+KickPPL:CreateInput({Name="Name"; PlaceholderText="Nexer"; NumbersOnly=false; OnEnter=true; RemoveTextAfterFocusLost=false; Callback=function(Value)
+CertainUsername = tostring(Value)
+end; })
+KickPPL:CreateButton({Name = "Kick Player"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsername).Character, KickPosition[math.random(1,5)])
+end; })
+KickPPL:CreateSection("Mass Kicking")
+local IncludeYourself = false
+KickPPL:CreateToggle({Name = "Include Yourself?"; Default = false; Callback = function(Value)
+IncludeYourself = Value
+end; })
+KickPPL:CreateButton({Name = "Kick Everyone"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, KickPosition[math.random(1,5)])
+end
+end
+if IncludeYourself==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, KickPosition[math.random(1,5)])
+end
+end; })
+KickPPL:CreateButton({Name = "Kick Everyone except Friends"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+pcall(function()
+if not v:IsFriendsWith(LocalPlayer.UserId) then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, KickPosition[math.random(1,5)])
+end
+end)
+end
+end
+if IncludeYourself==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, KickPosition[math.random(1,5)])
+end
+end; })
+local KickPPLOnJoin = false
+KickPPL:CreateToggle({Name = "Kick on Join?"; Default = false; Callback = function(Value)
+KickPPLOnJoin = Value
+end; })
+game:GetService("Players").PlayerAdded:Connect(function(p)
+if not KickPPLOnJoin==true then return end
+repeat task.wait() until p.Character
+task.wait(1)
+local ThatName = p.Name
+repeat task.wait(1)
+pcall(function()
+if game:GetService("Players"):FindFirstChild(ThatName) and p.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(p.Character, KickPosition[math.random(1,5)])
+end
+end)
+until game:GetService("Players"):FindFirstChild(ThatName)==nil
+end)
+
+
+
+
+Window:CreateTabSection("Kill")
+local KillPPL = Window:CreateTab("Kill",0)
+KillPPL:CreateSection("Certain Killing")
+local CertainUsernamek = "Nexer"
+KillPPL:CreateInput({Name="Name"; PlaceholderText="Nexer"; NumbersOnly=false; OnEnter=true; RemoveTextAfterFocusLost=false; Callback=function(Value)
+CertainUsernamek = tostring(Value)
+end; })
+KillPPL:CreateButton({Name = "Kill Player"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamek).Character, CFrame.new(math.huge,math.huge,math.huge))
+end; })
+KillPPL:CreateSection("Mass Killing")
+local IncludeYourselfk = false
+KillPPL:CreateToggle({Name = "Include Yourself?"; Default = false; Callback = function(Value)
+IncludeYourselfk = Value
+end; })
+KillPPL:CreateButton({Name = "Kill Everyone"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, CFrame.new(math.huge,math.huge,math.huge))
+end
+end
+if IncludeYourselfk==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, CFrame.new(math.huge,math.huge,math.huge))
+end
+end; })
+KillPPL:CreateButton({Name = "Kill Everyone except Friends"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+pcall(function()
+if not v:IsFriendsWith(LocalPlayer.UserId) then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, CFrame.new(math.huge,math.huge,math.huge))
+end
+end)
+end
+end
+if IncludeYourselfk==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, CFrame.new(math.huge,math.huge,math.huge))
+end
+end; })
+
+
+
+
+
+Window:CreateTabSection("Teleport")
+local TelepPPL = Window:CreateTab("Teleport",0)
+TelepPPL:CreateSection("Certain Teleporting")
+local CertainUsernamet = "Nexer"
+TelepPPL:CreateInput({Name="Name"; PlaceholderText="Nexer"; NumbersOnly=false; OnEnter=true; RemoveTextAfterFocusLost=false; Callback=function(Value)
+CertainUsernamet = tostring(Value)
+end; })
+TelepPPL:CreateButton({Name = "Teleport Player to Debug Room"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, DebugPosition[math.random(1,5)])
+end; })
+TelepPPL:CreateButton({Name = "Teleport Player to Boogie Shop"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, BoogieShopPosition[math.random(1,3)])
+end; })
+TelepPPL:CreateButton({Name = "Teleport Player to Pocket Dimension"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, PocketDimensionPosition)
+end; })
+TelepPPL:CreateButton({Name = "Teleport Player to Ice Trials"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, IceTrialsPosition[math.random(1,16)])
+end; })
+TelepPPL:CreateButton({Name = "Teleport Player to Yourself"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, HumanoidRootPart.CFrame)
+end; })
+TelepPPL:CreateSection("Mass Teleporting")
+local IncludeYourselft = false
+TelepPPL:CreateToggle({Name = "Include Yourself?"; Default = false; Callback = function(Value)
+IncludeYourselft = Value
+end; })
+TelepPPL:CreateButton({Name = "Teleport Everyone to Debug Room"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, DebugPosition[math.random(1,5)])
+end
+end
+if IncludeYourselft==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, DebugPosition[math.random(1,5)])
+end
+end; })
+TelepPPL:CreateButton({Name = "Teleport Everyone to Boogie Shop"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, BoogieShopPosition[math.random(1,3)])
+end
+end
+if IncludeYourselft==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, BoogieShopPosition[math.random(1,3)])
+end
+end; })
+TelepPPL:CreateButton({Name = "Teleport Everyone to Pocket Dimension"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, PocketDimensionPosition)
+end
+end
+if IncludeYourselft==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, PocketDimensionPosition)
+end
+end; })
+TelepPPL:CreateButton({Name = "Teleport Everyone to Ice Trials"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, IceTrialsPosition[math.random(1,16)])
+end
+end
+if IncludeYourselft==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, IceTrialsPosition[math.random(1,16)])
+end
+end; })
+TelepPPL:CreateButton({Name = "Teleport Everyone to Yourself"; Callback = function()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v~=LocalPlayer and v.Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, HumanoidRootPart.CFrame)
+end
+end
+if IncludeYourselft==true then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, HumanoidRootPart.CFrame)
+end
+end; })
+
+
+
+
+
+Window:CreateTabSection("Other")
+local Other = Window:CreateTab("Other",0)
+Other:CreateButton({Name = "Become Invisible"; Callback = function()
+EquipGlove("Ghost")
+game.ReplicatedStorage.Ghostinvisibilityactivated:FireServer()
+end; })
+Other:CreateButton({Name = "Close UI"; Callback = function()
+Rayfield:Destroy()
+end; })
