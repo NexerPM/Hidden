@@ -136,10 +136,24 @@ local IceTrialsPosition = {
     [16] = CFrame.new(1658, 90, 8945),
 }
 local BasementPosition = {
-    [1] = CFrame.new(17894, -130, -3532),
-    [2] = CFrame.new(17894, -130, -3552),
-    [3] = CFrame.new(17895, -130, -3495),
-    [4] = CFrame.new(17943, -130, -3536),
+    [1] = CFrame.new(17894, -125, -3532),
+    [2] = CFrame.new(17894, -125, -3552),
+    [3] = CFrame.new(17895, -125, -3495),
+    [4] = CFrame.new(17943, -125, -3536),
+    [5] = CFrame.new(17896, -108, -3475),
+}
+local MainArenaPosition = {
+    [1] = CFrame.new(22, 0, -81),
+    [2] = CFrame.new(-36, 0, -68),
+    [3] = CFrame.new(49, 0, -40),
+    [4] = CFrame.new(-55, 0, -30),
+    [5] = CFrame.new(-2, 0, -16),
+    [6] = CFrame.new(59, 0, -9),
+    [7] = CFrame.new(-79, 0, 14),
+    [8] = CFrame.new(-38, 0, 42),
+    [9] = CFrame.new(11, 0, 54),
+    [10] = CFrame.new(51, 0, 65),
+    [11] = CFrame.new(-16, 0, 80),
 }
 local PocketDimensionPosition = CFrame.new(-89, -28140, 5)
 
@@ -165,8 +179,8 @@ if v and v~=LocalPlayer and v.Character then
 game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, KickPosition[math.random(1,5)])
 end
 end
-if IncludeYourself==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, KickPosition[math.random(1,5)])
+if IncludeYourself==true and Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(Character, KickPosition[math.random(1,5)])
 end
 end; })
 KickPPL:CreateButton({Name = "Kick Everyone except Friends"; Callback = function()
@@ -179,8 +193,8 @@ end
 end)
 end
 end
-if IncludeYourself==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, KickPosition[math.random(1,5)])
+if IncludeYourself==true and Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(Character, KickPosition[math.random(1,5)])
 end
 end; })
 local KickPPLOnJoin = false
@@ -225,8 +239,8 @@ if v and v~=LocalPlayer and v.Character then
 game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, CFrame.new(math.huge,math.huge,math.huge))
 end
 end
-if IncludeYourselfk==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, CFrame.new(math.huge,math.huge,math.huge))
+if IncludeYourselfk==true and Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(Character, CFrame.new(math.huge,math.huge,math.huge))
 end
 end; })
 KillPPL:CreateButton({Name = "Kill Everyone except Friends"; Callback = function()
@@ -239,15 +253,31 @@ end
 end)
 end
 end
-if IncludeYourselfk==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, CFrame.new(math.huge,math.huge,math.huge))
+if IncludeYourselfk==true and Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(Character, CFrame.new(math.huge,math.huge,math.huge))
 end
 end; })
 
 
 
 
-
+function GetPlace(var)
+if var=="Debug Room" then
+return DebugPosition[math.random(1,5)]
+elseif var=="Boogie Shop" then
+return BoogieShopPosition[math.random(1,3)]
+elseif var=="Pocket Dimension" then
+return PocketDimensionPosition
+elseif var=="Ice Trials" then
+return IceTrialsPosition[math.random(1,16)]
+elseif var=="Hitman's Basement" then
+return BasementPosition[math.random(1,5)]
+elseif var=="Main Arena" then
+return MainArenaPosition[math.random(1,11)]
+elseif var=="Yourself" then
+return HumanoidRootPart.CFrame
+end
+end
 Window:CreateTabSection("Teleport")
 local TelepPPL = Window:CreateTab("Teleport",0)
 TelepPPL:CreateSection("Certain Teleporting")
@@ -255,74 +285,55 @@ local CertainUsernamet = "Nexer"
 TelepPPL:CreateInput({Name="Name"; PlaceholderText="Nexer"; NumbersOnly=false; OnEnter=true; RemoveTextAfterFocusLost=false; Callback=function(Value)
 CertainUsernamet = tostring(Value)
 end; })
-TelepPPL:CreateButton({Name = "Teleport Player to Debug Room"; Callback = function()
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, DebugPosition[math.random(1,5)])
+local CertainTplace = "Debug Room"
+TelepPPL:CreateDropdown({Name = "Teleport Place"; Options = {"Debug Room","Boogie Shop","Pocket Dimension","Ice Trials","Hitman's Basement","Main Arena","Yourself"}; CurrentOption = "Debug Room"; MultiSelection = false; Callback = function(Value)
+CertainTplace = Rayfield:GetDropdownValue(Value)
 end; })
-TelepPPL:CreateButton({Name = "Teleport Player to Boogie Shop"; Callback = function()
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, BoogieShopPosition[math.random(1,3)])
+TelepPPL:CreateButton({Name = "Teleport Player"; Callback = function()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, GetPlace(CertainTplace))
 end; })
-TelepPPL:CreateButton({Name = "Teleport Player to Pocket Dimension"; Callback = function()
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, PocketDimensionPosition)
-end; })
-TelepPPL:CreateButton({Name = "Teleport Player to Ice Trials"; Callback = function()
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, IceTrialsPosition[math.random(1,16)])
-end; })
-TelepPPL:CreateButton({Name = "Teleport Player to Yourself"; Callback = function()
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, HumanoidRootPart.CFrame)
+local CertainLoopTP = false
+TelepPPL:CreateToggle({Name = "Loop Teleport Player"; Default = false; Callback = function(Value)
+CertainLoopTP = Value
+if CertainLoopTP==true then
+repeat task.wait()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamet).Character, GetPlace(CertainTplace))
+until CertainLoopTP==false
+end
 end; })
 TelepPPL:CreateSection("Mass Teleporting")
 local IncludeYourselft = false
 TelepPPL:CreateToggle({Name = "Include Yourself?"; Default = false; Callback = function(Value)
 IncludeYourselft = Value
 end; })
-TelepPPL:CreateButton({Name = "Teleport Everyone to Debug Room"; Callback = function()
+local MassTplace = "Debug Room"
+TelepPPL:CreateDropdown({Name = "Teleport Place"; Options = {"Debug Room","Boogie Shop","Pocket Dimension","Ice Trials","Hitman's Basement","Main Arena","Yourself"}; CurrentOption = "Debug Room"; MultiSelection = false; Callback = function(Value)
+MassTplace = Rayfield:GetDropdownValue(Value)
+end; })
+TelepPPL:CreateButton({Name = "Teleport Everyone"; Callback = function()
 for i,v in next, game:GetService("Players"):GetPlayers() do
 if v and v~=LocalPlayer and v.Character then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, DebugPosition[math.random(1,5)])
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, GetPlace(MassTplace))
 end
 end
 if IncludeYourselft==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, DebugPosition[math.random(1,5)])
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, GetPlace(MassTplace))
 end
 end; })
-TelepPPL:CreateButton({Name = "Teleport Everyone to Boogie Shop"; Callback = function()
+local MassLoopTP = false
+TelepPPL:CreateToggle({Name = "Loop Teleport Everyone"; Default = false; Callback = function(Value)
+MassLoopTP = Value
+if MassLoopTP==true then
+repeat task.wait()
 for i,v in next, game:GetService("Players"):GetPlayers() do
 if v and v~=LocalPlayer and v.Character then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, BoogieShopPosition[math.random(1,3)])
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, GetPlace(MassTplace))
 end
 end
-if IncludeYourselft==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, BoogieShopPosition[math.random(1,3)])
+if IncludeYourselft==true and Character then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(Character, GetPlace(MassTplace))
 end
-end; })
-TelepPPL:CreateButton({Name = "Teleport Everyone to Pocket Dimension"; Callback = function()
-for i,v in next, game:GetService("Players"):GetPlayers() do
-if v and v~=LocalPlayer and v.Character then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, PocketDimensionPosition)
-end
-end
-if IncludeYourselft==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, PocketDimensionPosition)
-end
-end; })
-TelepPPL:CreateButton({Name = "Teleport Everyone to Ice Trials"; Callback = function()
-for i,v in next, game:GetService("Players"):GetPlayers() do
-if v and v~=LocalPlayer and v.Character then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, IceTrialsPosition[math.random(1,16)])
-end
-end
-if IncludeYourselft==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, IceTrialsPosition[math.random(1,16)])
-end
-end; })
-TelepPPL:CreateButton({Name = "Teleport Everyone to Yourself"; Callback = function()
-for i,v in next, game:GetService("Players"):GetPlayers() do
-if v and v~=LocalPlayer and v.Character then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, HumanoidRootPart.CFrame)
-end
-end
-if IncludeYourselft==true then
-game:GetService("ReplicatedStorage").Events.Cherry:FireServer(LocalPlayer.Character, HumanoidRootPart.CFrame)
+until MassLoopTP==false
 end
 end; })
 
