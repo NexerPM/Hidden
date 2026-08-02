@@ -337,7 +337,50 @@ until MassLoopTP==false
 end
 end; })
 
-
+Window:CreateTabSection("Anchor/Anti Ragdoll")
+local AnchorPPL = Window:CreateTab("Anchor",0)
+AnchorPPL:CreateSection("Certain Anchoring")
+local CertainUsernameaa = "Nexer"
+AnchorPPL:CreateInput({Name="Name"; PlaceholderText="Nexer"; NumbersOnly=false; OnEnter=true; RemoveTextAfterFocusLost=false; Callback=function(Value)
+CertainUsernameaa = tostring(Value)
+end; })
+local isthatpersonachored = false
+AnchorPPL:CreateButton({Name = "Anchor/Unanchor Player"; Callback = function()
+isthatpersonachored = not isthatpersonachored
+if isthatpersonachored == true then
+local cframesaved = game:GetService("Players"):WaitForChild(CertainUsernameaa).Character:WaitForChild("HumanoidRootPart").CFrame
+repeat task.wait()
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernameaa).Character, cframesaved)
+until isthatpersonachored == false
+end
+end; })
+AnchorPPL:CreateSection("Mass Anchoring")
+local IncludeYourselfan = false
+AnchorPPL:CreateToggle({Name = "Include Yourself?"; Default = false; Callback = function(Value)
+IncludeYourselfan = Value
+end; })
+local Anchoryall = false
+AnchorPPL:CreateButton({Name = "Anchor/Unanchor Everyone"; Callback = function()
+Anchoryall = not Anchoryall
+if Anchoryall==true then
+local cframesaved = {}
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+cframesaved[v.Name] = v.Character:WaitForChild("HumanoidRootPart").CFrame
+if IncludeYourselfan==false and v==LocalPlayer then
+cframesaved[LocalPlayer.Name] = nil
+end
+end
+end
+repeat task.wait()
+for i,v in next, game:GetService("Players"):GetPlayers() do
+if v and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and cframesaved[v.Name] then
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(v.Character, cframesaved[v.Name])
+end
+end
+until Anchoryall==false
+end
+end; })
 
 
 
