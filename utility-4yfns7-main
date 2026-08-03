@@ -228,6 +228,25 @@ end; })
 KillPPL:CreateButton({Name = "Kill Player"; Callback = function()
 game:GetService("ReplicatedStorage").Events.Cherry:FireServer(game:GetService("Players"):WaitForChild(CertainUsernamek).Character, CFrame.new(math.huge,math.huge,math.huge))
 end; })
+local instakillslap = false
+KillPPL:CreateToggle({Name = "Instakill Slap"; Default = false; Callback = function(Value)
+instakillslap = Value
+if instakillslap==true then
+repeat task.wait()
+for i,v in next, workspace:GetChildren() do
+if v and v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("LastSlappedBy") and v.LastSlappedBy:FindFirstChildWhichIsA("ObjectValue") then
+local plrinstance = game:GetService("Players"):GetPlayerFromCharacter(v)
+if v.LastSlappedBy.Value==LocalPlayer.Name and plrinstance and plrinstance.Character then
+for i=1,50 do
+game:GetService("ReplicatedStorage").Events.Cherry:FireServer(plrinstance.Character, CFrame.new(math.huge,math.huge,math.huge))
+end
+v.LastSlappedBy.Value = "died"
+end
+end
+end
+until instakillslap==false
+end
+end; })
 KillPPL:CreateSection("Mass Killing")
 local IncludeYourselfk = false
 KillPPL:CreateToggle({Name = "Include Yourself?"; Default = false; Callback = function(Value)
