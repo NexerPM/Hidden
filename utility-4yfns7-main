@@ -232,6 +232,14 @@ local instakillslap = false
 KillPPL:CreateToggle({Name = "Instakill Slap"; Default = false; Callback = function(Value)
 instakillslap = Value
 if instakillslap==true then
+for i,v in next, workspace:GetChildren() do
+if v and v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("LastSlappedBy") and v.LastSlappedBy:FindFirstChildWhichIsA("ObjectValue") then
+local plrinstance = game:GetService("Players"):GetPlayerFromCharacter(v)
+if v.LastSlappedBy.Value==LocalPlayer.Name and plrinstance and plrinstance.Character then
+v.LastSlappedBy.Value = "alive"
+end
+end
+end
 repeat task.wait()
 for i,v in next, workspace:GetChildren() do
 if v and v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v:FindFirstChild("LastSlappedBy") and v.LastSlappedBy:FindFirstChildWhichIsA("ObjectValue") then
